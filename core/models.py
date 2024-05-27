@@ -1,4 +1,5 @@
-from pydantic import BaseModel,HttpUrl
+from pydantic import BaseModel
+from pydantic import HttpUrl
 
 class generateSchema(BaseModel):
     url: HttpUrl
