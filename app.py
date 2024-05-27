@@ -1,5 +1,5 @@
 import dns.resolver
-import redis
+import redis.asyncio as redis
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
