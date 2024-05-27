@@ -4,6 +4,7 @@ ENV BUILD_ID=$vcs-ref
 
 ENV MONGODB_URI = None
 ENV MONGODB_DB = None
+ENV REDIS_URI = None
 
 WORKDIR /app
 COPY Pipfile ./

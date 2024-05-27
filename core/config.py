@@ -6,6 +6,10 @@ class Config:
         self.config_path = 'config.json'
         self.config = json.load(open(self.config_path,encoding='utf-8'))
 
-        self.version = self.config['version']
+        self.version = str(self.config['version'])
+
+        self.mongodb_uri = os.getenv('MONGODB_URI')
+        self.mongodb_db = os.getenv('MONGODB_DB')
+        self.redis_uri = os.getenv('REDIS_URI')
         
        

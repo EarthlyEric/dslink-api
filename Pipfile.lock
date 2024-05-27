@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5b7a519caf3de85cc92686361ea23e07d3c08566500623857b3356e28b20160f"
+            "sha256": "87f39ded049514e8a31a86dffdd8a4f262bd3a6f992af90d2fe9d98294e2778f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -31,6 +31,14 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==4.4.0"
+        },
+        "async-timeout": {
+            "hashes": [
+                "sha256:4640d96be84d82d02ed59ea2b7105a0f7b33abe8703703cd0ab0bf87c427522f",
+                "sha256:7405140ff1230c310e51dc27b3145b9092d659ce68ff733fb0cefe3ee42be028"
+            ],
+            "markers": "python_full_version < '3.11.3'",
+            "version": "==4.0.3"
         },
         "certifi": {
             "hashes": [
@@ -323,7 +331,7 @@
                 "sha256:e029badca45266732a9a79898a15ae2e8b14840b1eabbb25844be28f0b33f3d5",
                 "sha256:e9dbb5eada8abe4d9ae5f46b9939aead650cd2b68f249bb3a8139dbe125803cc"
             ],
-            "markers": "python_version >= '3.8'",
+            "index": "pypi",
             "version": "==2.7.1"
         },
         "pydantic-core": {
@@ -420,6 +428,9 @@
             "version": "==2.18.0"
         },
         "pymongo": {
+            "extras": [
+                "srv"
+            ],
             "hashes": [
                 "sha256:02efd1bb3397e24ef2af45923888b41a378ce00cb3a4259c5f4fc3c70497a22f",
                 "sha256:0d833651f1ba938bb7501f13e326b96cfbb7d98867b2d545ca6d69c7664903e0",
@@ -482,7 +493,7 @@
                 "sha256:fcaf8c911cb29316a02356f89dbc0e0dfcc6a712ace217b6b543805690d2aefd",
                 "sha256:ffd4d7cb2e6c6e100e2b39606d38a9ffc934e18593dc9bb326196afc7d93ce3d"
             ],
-            "markers": "python_version >= '3.7'",
+            "index": "pypi",
             "version": "==4.7.2"
         },
         "python-dotenv": {
@@ -555,6 +566,14 @@
                 "sha256:fd66fc5d0da6d9815ba2cebeb4205f95818ff4b79c3ebe268e75d961704af52f"
             ],
             "version": "==6.0.1"
+        },
+        "redis": {
+            "hashes": [
+                "sha256:7adc2835c7a9b5033b7ad8f8918d09b7344188228809c98df07af226d39dec91",
+                "sha256:ec31f2ed9675cc54c21ba854cfe0462e6faf1d83c8ce5944709db8a4700b9c61"
+            ],
+            "index": "pypi",
+            "version": "==5.0.4"
         },
         "rich": {
             "hashes": [
