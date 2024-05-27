@@ -10,6 +10,7 @@ async def redirect_to(hash:str):
     if url is None:
         url_entry = await database.urls.find_one({"hash": hash})
         if url_entry:
+            redisResult = await redisClient.set(hash, str(url_entry["url"]))
             return {"url": url_entry["url"]}
     else:
         return {"url": url}
