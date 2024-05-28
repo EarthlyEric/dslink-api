@@ -9,7 +9,7 @@ config = Config()
 
 app = FastAPI(title="DSLink API",
             version=config.version,
-            description="A RESTful API for Luminara.",
+            description="A RESTful API for DSLink",
             docs_url="/docs",
             redoc_url=None
             )
