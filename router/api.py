@@ -8,7 +8,7 @@ from app import database, redisClient
 api = APIRouter()
 
 @api.post("/generate")
-async def generate(request:generateSchema,response_class=ORJSONResponse):
+async def generate(request:generateSchema):
     hash = utils.generateHash()
     while await database.links.find_one({"hash":hash}):
         hash = utils.generateHash()
@@ -21,7 +21,7 @@ async def generate(request:generateSchema,response_class=ORJSONResponse):
     raise HTTPException(status_code=500, detail="Failed to shorten URL")
 
 @api.post("/lookup")
-async def lookup(request:lookupSchema,response_class=ORJSONResponse):
+async def lookup(request:lookupSchema):
     hash = request.hash
     url = await redisClient.get(hash).decode('utf-8')
     if url is None:
