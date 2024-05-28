@@ -1,5 +1,5 @@
 # DSLink API
-A free URL shortening service
+A free shorten url service.
 
 # Server Provider
 MongoDB
