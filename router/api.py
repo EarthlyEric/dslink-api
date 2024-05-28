@@ -1,21 +1,36 @@
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
+from fastapi.responses import ORJSONResponse
 from core.utils import utils
-from core.models import generateSchema
+from core.models import generateSchema, lookupSchema
 from app import database, redisClient
 
 api = APIRouter()
 
 @api.post("/generate")
-async def generate(request:generateSchema):
+async def generate(request:generateSchema,response_class=ORJSONResponse):
     hash = utils.generateHash()
     while await database.links.find_one({"hash":hash}):
         hash = utils.generateHash()
 
-    databaseResult = await database.urls.insert_one({"url": str(request.url), "hash": hash})
+    databaseResult = await database.links.insert_one({"url": str(request.url), "hash": hash})
     redisResult = await redisClient.set(hash, str(request.url))
     if databaseResult.inserted_id:
         return {"hash": hash}
     
     raise HTTPException(status_code=500, detail="Failed to shorten URL")
+
+@api.post("/lookup")
+async def lookup(request:lookupSchema,response_class=ORJSONResponse):
+    hash = request.hash
+    url = await redisClient.get(hash).decode('utf-8')
+    if url is None:
+        url_entry = await database.links.find_one({"hash": hash})
+        if url_entry:
+            redisResult = await redisClient.set(hash, str(url_entry["url"]))
+            return {"url": url_entry["url"]}
+    else:
+        return {"url": url}
+    
+    raise HTTPException(status_code=404, detail="Short URL not found")
 
