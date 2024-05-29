@@ -1,5 +1,3 @@
-import pymongo
-import asyncio
 from datetime import datetime, timezone ,timedelta
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
@@ -11,19 +9,19 @@ api = APIRouter()
 
 @api.post("/generate")
 async def generate(request:generateSchema):
-    await database.links.create_index([("expiration_time", pymongo.ASCENDING)], expireAfterSeconds=0)
+    
     hash = utils.generateHash()
     while await database.links.find_one({"hash":hash}):
         hash = utils.generateHash()
 
-    expiration_time = datetime.now(timezone.utc) + timedelta(minutes=1)
+    expiration_time = datetime.now(timezone.utc) + timedelta(days=request.expiryDays)
 
     databaseResult = await database.links.insert_one({
         "url": str(request.url), 
         "hash": hash,
         "expiration_time": expiration_time,
     })
-    redisResult = await redisClient.set(hash, str(request.url),ex=60)
+    redisResult = await redisClient.set(hash, str(request.url),ex=60*60*24*request.expiryDays)
     if databaseResult.inserted_id:
         return {"hash": hash}
     
@@ -42,4 +40,6 @@ async def lookup(request:lookupSchema):
         return {"url": url}
     
     raise HTTPException(status_code=404, detail="Short URL not found")
+
+
 
