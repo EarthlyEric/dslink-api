@@ -14,16 +14,16 @@ async def generate(request:generateSchema):
     while await database.links.find_one({"hash":hash}):
         hash = utils.generateHash()
 
-    expiration_time = datetime.now(timezone.utc) + timedelta(days=request.expiryDays)
+    expiryDays = datetime.now(timezone.utc) + timedelta(days=request.expiryDays)
 
     databaseResult = await database.links.insert_one({
         "url": str(request.url), 
         "hash": hash,
-        "expiration_time": expiration_time,
+        "expirydays": expiryDays,
     })
     redisResult = await redisClient.set(hash, str(request.url),ex=60*60*24*request.expiryDays)
     if databaseResult.inserted_id:
-        return {"hash": hash}
+        return {"hash": hash,"expiryDays": request.expiryDays}
     
     raise HTTPException(status_code=500, detail="Failed to shorten URL")
 
