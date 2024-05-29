@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 from fastapi.responses import RedirectResponse
-from app import database,redisClient
+from app import database , redisClient
 
 urls = APIRouter()
 
@@ -12,7 +12,7 @@ async def redirect_to(hash:str):
     if url is None:
         url_entry = await database.links.find_one({"hash": hash})
         if url_entry:
-            redisResult = await redisClient.set(hash, str(url_entry["url"]))
+            await redisClient.set(hash, str(url_entry["url"]))
             return RedirectResponse(url=url_entry["url"],status_code=301)
     else:
         return RedirectResponse(url=url,status_code=301)
