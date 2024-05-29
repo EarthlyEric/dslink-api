@@ -13,6 +13,7 @@ config = Config()
 origins = [
     "http://localhost",
     "http://localhost:3000"
+    "https://dslink.zeabur.app"
 ]
 
 app = FastAPI(title="DSLink API",
