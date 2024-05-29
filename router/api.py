@@ -1,6 +1,8 @@
+import pymongo
+import asyncio
+from datetime import datetime, timezone ,timedelta
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
-from fastapi.responses import ORJSONResponse
 from core.utils import utils
 from core.models import generateSchema, lookupSchema
 from app import database, redisClient
@@ -9,12 +11,19 @@ api = APIRouter()
 
 @api.post("/generate")
 async def generate(request:generateSchema):
+    await database.links.create_index([("expiration_time", pymongo.ASCENDING)], expireAfterSeconds=0)
     hash = utils.generateHash()
     while await database.links.find_one({"hash":hash}):
         hash = utils.generateHash()
 
-    databaseResult = await database.links.insert_one({"url": str(request.url), "hash": hash})
-    redisResult = await redisClient.set(hash, str(request.url))
+    expiration_time = datetime.now(timezone.utc) + timedelta(minutes=1)
+
+    databaseResult = await database.links.insert_one({
+        "url": str(request.url), 
+        "hash": hash,
+        "expiration_time": expiration_time,
+    })
+    redisResult = await redisClient.set(hash, str(request.url),ex=60)
     if databaseResult.inserted_id:
         return {"hash": hash}
     

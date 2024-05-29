@@ -36,6 +36,8 @@ dns.resolver.default_resolver.nameservers=['8.8.8.8']
 databaseClient = AsyncIOMotorClient(config.mongodb_uri)
 database = databaseClient[config.mongodb_db]
 
+
+
 redisClient = redis.Redis.from_url(config.redis_uri)
 
 from router.urls import urls
