@@ -10,12 +10,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 config = Config()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000"
-    "https://dslink.zeabur.app"
-    "dslink.zeabur.app"
-]
+origins = ["*"]
 
 app = FastAPI(title="DSLink API",
             version=config.version,
