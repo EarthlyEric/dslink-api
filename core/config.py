@@ -12,8 +12,8 @@ class Config:
         self.version = str(self.config['version'])
 
         self.mongodb_uri = os.getenv('MONGODB_URI')
-        self.mongodb_db = str(os.getenv('MONGODB_DB'))
-        self.redis_uri = str(os.getenv('REDIS_URI'))
+        self.mongodb_db = os.getenv('MONGODB_DB')
+        self.redis_uri = os.getenv('REDIS_URI')
         
         if self.mongodb_uri is None:
             self.mongodb_uri = self.config['connections']['mongoDB']['uri']
