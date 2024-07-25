@@ -95,8 +95,3 @@ jobs:
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
-      - name: Invoke deployment hook
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: ${{ secrets.WEBHOOK_URL }}
-          method: 'POST'
