@@ -10,6 +10,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 config = Config()
 
+print(config.mongodb_uri)
+print(config.mongodb_db)
+print(config.redis_uri)
+
 origins = ["*"]
 
 app = FastAPI(title="DSLink API",
