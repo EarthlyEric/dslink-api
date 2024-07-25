@@ -16,9 +16,9 @@ class Config:
         self.redis_uri = str(os.getenv('REDIS_URI'))
         
         if self.mongodb_uri is None:
-            self.mongodb_uri = self.config['connections']['mongodb']['uri']
+            self.mongodb_uri = self.config['connections']['mongoDB']['uri']
         if self.mongodb_db is None:
-            self.mongodb_db = self.config['connections']['mongodb']['database']
+            self.mongodb_db = self.config['connections']['mongoDB']['database']
         if self.redis_uri is None:
             self.redis_uri = self.config['connections']['redis']['uri']
        
