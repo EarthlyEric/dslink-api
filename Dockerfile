@@ -11,4 +11,4 @@ RUN  pip3 install pipenv  \
 COPY . .
 
 EXPOSE 443
-CMD ["sh","deploy.sh"]
+CMD ["uvicorn:","app:app","--host","0.0.0.0","--port","443"]
