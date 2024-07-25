@@ -12,4 +12,10 @@ class Config:
         self.mongodb_db = str(os.getenv('MONGODB_DB'))
         self.redis_uri = str(os.getenv('REDIS_URI'))
         
+        if self.mongodb_uri is None:
+            self.mongodb_uri = self.config['mongodb_uri']
+        if self.mongodb_db is None:
+            self.mongodb_db = self.config['mongodb_db']
+        if self.redis_uri is None:
+            self.redis_uri = self.config['redis_uri']
        
