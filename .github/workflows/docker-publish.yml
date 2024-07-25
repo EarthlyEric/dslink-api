@@ -94,3 +94,8 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+        
+      - name: Invoke deployment hook
+        uses: distributhor/workflow-webhook@v2
+        with:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
