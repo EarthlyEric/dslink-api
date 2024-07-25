@@ -10,6 +10,6 @@ class Config:
 
         self.mongodb_uri = os.getenv('MONGODB_URI')
         self.mongodb_db = str(os.getenv('MONGODB_DB'))
-        self.redis_uri = os.getenv('REDIS_URI')
+        self.redis_uri = str(os.getenv('REDIS_URI'))
         
        
