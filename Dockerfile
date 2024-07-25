@@ -2,10 +2,6 @@ FROM python:3.10-alpine3.17
 ARG vcs-ref=0
 ENV BUILD_ID=$vcs-ref
 
-ENV MONGODB_URI = None
-ENV MONGODB_DB = None
-ENV REDIS_URI = None
-
 WORKDIR /app
 COPY Pipfile ./
 COPY Pipfile.lock ./
