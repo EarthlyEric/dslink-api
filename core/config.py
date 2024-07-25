@@ -9,7 +9,7 @@ class Config:
         self.version = str(self.config['version'])
 
         self.mongodb_uri = os.getenv('MONGODB_URI')
-        self.mongodb_db = os.getenv('MONGODB_DB')
+        self.mongodb_db = str(os.getenv('MONGODB_DB'))
         self.redis_uri = os.getenv('REDIS_URI')
         
        
