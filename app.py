@@ -46,7 +46,7 @@ async def checkIndex():
 
 async def closeDB():
     databaseClient.close()
-    redisClient.close()
+    await redisClient.close()
     logging.info("Database connection closed")
 
 @app.on_event("startup")
