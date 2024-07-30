@@ -13,5 +13,5 @@ class Config:
         self.mongodb_uri = self.config['connections']['mongoDB']['uri']
         self.mongodb_db = self.config['connections']['mongoDB']['database']
         self.redis_uri = self.config['connections']['redis']['uri']
-        self.buildid = os.getenv('BUILD_ID')
+        self.buildid = str(os.getenv('BUILD_ID'))
        
