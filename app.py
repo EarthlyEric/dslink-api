@@ -21,8 +21,6 @@ app = FastAPI(title="DSLink API",
             description="A RESTful API for DSLink"
             )
 
-app.mount("/static", StaticFiles(directory="web/static",html=True), name="static")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -38,14 +36,13 @@ database = databaseClient[config.mongodb_db]
 redisClient = redis.Redis.from_url(config.redis_uri)
 logging.info("Database connection established")
 
-async def checkIndex():   
+async def checkLinksIndex():   
     indexes_cursor = database.links.list_indexes()
-    indexes = await indexes_cursor.to_list(length=None)  # Await the coroutine and convert the cursor to a list
+    indexes = await indexes_cursor.to_list(length=None)  
     index_names = [index["name"] for index in indexes]
     if not "expiration_time" in index_names:
         await database.links.create_index([("expiration_time", pymongo.ASCENDING)], expireAfterSeconds=0)
         logging.info("Index created")
-    logging.info("Database connection established")
 
 
 async def closeDB():
@@ -55,7 +52,8 @@ async def closeDB():
 
 @app.on_event("startup")
 async def startup_event():
-    await checkIndex()
+    await checkLinksIndex()
+    logging.info("Database connection established")
 
 @app.on_event("shutdown")
 async def shutdown_event():
