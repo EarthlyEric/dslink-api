@@ -3,9 +3,12 @@ from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 from core.utils import utils
 from core.models import generateSchema, lookupSchema
+from core.config import Config
 from app import database, redisClient
 
 api = APIRouter()
+
+config = Config()
 
 @api.post("/generate")
 async def generate(request:generateSchema):
@@ -27,6 +30,16 @@ async def generate(request:generateSchema):
     
     raise HTTPException(status_code=500, detail="Failed to shorten URL")
 
+@api.get("/health")
+async def health():
+    return {"status":"ok"}
+
+@api.get("/info")
+async def version():
+    return {"name":"DSLink",
+            "version":"1.0.0",
+            "buildid":config.buildid }
+
 @api.post("/lookup")
 async def lookup(request:lookupSchema):
     hash = request.hash
@@ -40,6 +53,7 @@ async def lookup(request:lookupSchema):
         return {"url": url}
     
     raise HTTPException(status_code=404, detail="Short URL not found")
+
 
 
 
