@@ -46,30 +46,32 @@ async def version():
 
 @api.get("/statistic")
 async def statistic():
-    databaseResult = await database.system.find_one({"type":"statistic"})
     await database.system.update_one({"type":"statistic"},{"$inc":{"route./statistic":1}})
+    databaseSystemResult = await database.system.find_one({"type":"statistic"})
+    links=await database.links.count_documents()
     return await database.system.insert_one({
             "type":"statistic",
             "route":{
                 "api":{
                     "/generate":{
-                        "sucess":databaseResult["route"]["api"]["/generate"]["sucess"],
-                        "fail":databaseResult["route"]["api"]["/generate"]["fail"]
+                        "sucess":databaseSystemResult["route"]["api"]["/generate"]["sucess"],
+                        "fail":databaseSystemResult["route"]["api"]["/generate"]["fail"]
                         },
                     "/lookup":{
-                        "sucess":databaseResult["route"]["api"]["/lookup"]["sucess"],
-                        "fail":databaseResult["route"]["api"]["/lookup"]["fail"]
+                        "sucess":databaseSystemResult["route"]["api"]["/lookup"]["sucess"],
+                        "fail":databaseSystemResult["route"]["api"]["/lookup"]["fail"]
                     },
-                    "/health":databaseResult["route"]["api"]["/health"],
-                    "/info":databaseResult["route"]["api"]["/info"],
-                    "/statistic":databaseResult["route"]["api"]["/statistic"]
+                    "/health":databaseSystemResult["route"]["api"]["/health"],
+                    "/info":databaseSystemResult["route"]["api"]["/info"],
+                    "/statistic":databaseSystemResult["route"]["api"]["/statistic"]
                     },
                 "web":{
                     "redirect":{
-                        "sucess":databaseResult["route"]["web"]["redirect"]["sucess"],
-                        "fail":databaseResult["route"]["web"]["redirect"]["fail"]
+                        "sucess":databaseSystemResult["route"]["web"]["redirect"]["sucess"],
+                        "fail":databaseSystemResult["route"]["web"]["redirect"]["fail"]
                     }
-                }
+                },
+                "links":{"totals":links}
             }
             })
 
