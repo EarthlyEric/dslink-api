@@ -44,6 +44,40 @@ async def checkLinksIndex():
         await database.links.create_index([("expiration_time", pymongo.ASCENDING)], expireAfterSeconds=0)
         logging.info("Index created")
 
+async def checkCollections():
+    collections = await database.list_collection_names()
+    if "links" not in collections:
+        await database.create_collection("links")
+    if "system" not in collections:
+        await database.create_collection("system")
+
+async def checkSystemDocument():
+    statistic_document = await database.system.find_one({"type":"statistic"})
+    if not statistic_document:
+        await database.system.insert_one({
+            "type":"statistic",
+            "route":{
+                "api":{
+                    "/generate":{
+                        "sucess":0,
+                        "fail":0
+                        },
+                    "/lookup":{
+                        "sucess":0,
+                        "fail":0
+                    },
+                    "/health":0,
+                    "/info":0,
+                    "/statistic":0
+                    },
+                "web":{
+                    "redirect":{
+                        "sucess":0,
+                        "fail":0
+                    }
+                }
+            }
+            })
 
 async def closeDB():
     databaseClient.close()
@@ -53,6 +87,8 @@ async def closeDB():
 @app.on_event("startup")
 async def startup_event():
     await checkLinksIndex()
+    await checkCollections()
+    await checkSystemDocument()
     logging.info("Database connection established")
 
 @app.on_event("shutdown")
